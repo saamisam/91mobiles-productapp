@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Product Catalog</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+        <script src="/script.js"></script>
+    </head>
+    <body>
+        <div ng-app = "App" ng-controller="AppController">
+            <h3>New Product</h3>
+            <form ng-submit="submit()">
+                <table>           
+                    <tr>
+                        <td>Name</td>
+                        <td><input type="text" ng-model="product.name"></td>
+                    </tr>
+
+                    <tr>
+                        <td>Category Id</td>
+                        <td><select ng-model="product.categoryId"><option ng-repeat="x in category" value="{{x._id}}">{{x.category}}</option></select></td>
+                    </tr>
+
+                    <tr>
+                        <td>MRP</td>
+                        <td><input type="text" ng-model="product.mrp"></td>
+                    </tr>
+
+                    <tr>
+                        <td>Stock Status</td>
+                        <td><input type="text" ng-model="product.stockStatus"></td>
+                    </tr>
+
+                    <tr>
+                        <td>Description</td>
+                        <td><textarea type="text" ng-model="product.description" cols="30" rows="5"></textarea></td>
+                    </tr>
+
+                    <tr>
+                        <td>Image</td>
+                        <td><input type="file" demo-file-model="myFile" id="file"></td>
+                    </tr>
+
+                    <tr>
+                        <td>Tag Id</td>
+                        <td><select ng-model="product.tagId"><option ng-repeat="x in tag" value="{{x._id}}">{{x.Tag}}</option></select></td>
+                    </tr>
+                </table>
+
+                <button>Create Product</button>
+            </form>
+            <h3>OR</h3>
+            <form ng-submit="uploadcsv()">
+                <h3>Upload CSV</h3>
+                <br/>
+                <input type="file" demo-file-model="myFile" id="file"/>
+                <br/>
+                <br/>
+                <button>Upload</button>
+            </form>
+
+            <br/>
+            <h3>Your Products</h3>
+            <span> Search:</span><input type="text" ng-model="search" placeholder="Product name or category">
+            <br/><br/>
+            <table ng-if = "productlist.length > 0" border="1" cellspacing = "0">
+                <tr>
+                    <td>Name</td>
+                    <td>Category</td>
+                    <td>MRP</td>
+                    <td>Stock Status</td>
+                    <td>Description</td>
+                    <td>Image</td>
+                    <td>Tag</td>
+                    <td>Delete</td>
+                </tr>
+                <tr ng-repeat="x in productlist | filter : search">
+                    <td>{{ x.name }}</td>
+                    <td>{{ x.category}}</td>
+                    <td>{{ x.mrp }}</td>
+                    <td>{{ x.stockStatus }}</td>
+                    <td>{{ x.description }}</td>
+                    <td><img ng-src="/uploads/{{ x.image }}" width="100px"> </td>
+                    <td>{{ x.tag }}</td>
+                    <td><button ng-click = "delete(x._id)">&times;</button></td>
+                    <!-- <td>{{ x['categoryId'] }}</td> -->
+                </tr>
+            </table>
+        </div>
+
+        <script>
+            
+        </script>
+    </body>
+</html>

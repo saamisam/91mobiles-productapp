@@ -1,0 +1,16 @@
+{ 
+    "_id" : ObjectId("5b79de1cbe0b74279c9e29a2"), 
+    "category" : "Electronics"
+}
+{ 
+    "_id" : ObjectId("5b79de41be0b74279c9e29a3"), 
+    "category" : "Home Appliances"
+}
+{ 
+    "_id" : ObjectId("5b79de5fbe0b74279c9e29a4"), 
+    "category" : "Furniture"
+}
+{ 
+    "_id" : ObjectId("5b79de72be0b74279c9e29a5"), 
+    "category" : "clothing"
+}

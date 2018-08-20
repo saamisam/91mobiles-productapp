@@ -1,0 +1,12 @@
+{ 
+    "_id" : ObjectId("5b79dec5be0b74279c9e29aa"), 
+    "Tag" : "Aadi Sale"
+}
+{ 
+    "_id" : ObjectId("5b79dedcbe0b74279c9e29ab"), 
+    "Tag" : "Summer Offer"
+}
+{ 
+    "_id" : ObjectId("5b79deecbe0b74279c9e29ac"), 
+    "Tag" : "New Year Bonanza"
+}
