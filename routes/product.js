@@ -25,14 +25,6 @@ router.get('/getsession', (req,res,next) => {
     });
 })
 
-// router.get('/gettag', (req,res,next) => {
-//     // req.session.tagdata = [];
-//     tag.getTag((err, tagdata) => {
-//         // req.session.tagdata = tagdata;
-//         res.send({success: true, msg: 'Tag Data.', tag: tagdata});
-//     })
-// })
-
 router.get('/getProducts',(req,res,next) => {
     res.json({success: true, msg: 'Product List.', product: req.session.data});
 })

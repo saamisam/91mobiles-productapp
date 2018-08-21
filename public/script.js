@@ -20,7 +20,6 @@ angular.module('App', [])
     $scope.category = [];
 
     $http.get('/product/getproducts').then((res)=>{
-        // $scope.productlist = res.data.product;
         $scope.productlist.length = 0;
         for(key in res.data.product)
             $scope.productlist.push(res.data.product[key]);
@@ -31,10 +30,6 @@ angular.module('App', [])
         $scope.category = res.data.session.categorydata;
         $scope.product.categoryId = $scope.category[0].category;
     });
-
-    // $http.get('/product/getcategory').then((res)=>{
-    //     $scope.category = res.data.category;
-    // });
 
     $scope.submit = function(){
         var formData = new FormData;
@@ -66,9 +61,6 @@ angular.module('App', [])
             }else{
                 $scope.failed = res.data.msg;
             }
-            // $scope.productlist.length = 0;
-            // for(key in res.data.product)
-            //     $scope.productlist.push(res.data.product[key]);
         })
     }
 
