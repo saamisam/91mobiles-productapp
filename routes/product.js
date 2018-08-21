@@ -52,74 +52,77 @@ router.delete('/deleteproduct/:id',(req,res,next) => {
 
 router.post('/addproduct', upload.any(), (req, res, next) => {
     if (!req.session.data)  req.session.data = [];
-
-    if(req.files){
-        req.files.forEach(function(file){
-            var filename = (new Date).valueOf()+"-"+file.originalname;
-            fs.rename(file.path, 'public/uploads/'+filename,(err)=>{
-                if(err)throw err;
-                let newProduct = new Product({
-                    name : req.body.name,
-                    categoryId: req.body.categoryId,
-                    mrp: req.body.mrp,
-                    stockStatus: req.body.stockStatus,
-                    description: req.body.description,
-                    image: filename,
-                    tagId: req.body.tagId
-                });
-            
-                Product.addProduct(newProduct, (err, product) => {
-                    if(err)
-                        res.json({success: false, msg: 'Failed to add product.', err: err});
-                    else{
-                        return new Promise((resolve,reject)=>{
-                            if(product)
-                                return resolve(product);
-                            else    
-                                return reject();
-                        }, function(err) {
-                            console.log(err);
-                        })
-                        .then((product) => {
-                            product = product.toJSON();
+    if(req.body.name !== undefined && req.body.categoryId !== undefined && req.body.mrp !== undefined && req.body.stockStatus !== undefined && req.body.description !== undefined && req.body.tagId !== undefined){
+        if(req.files){
+            req.files.forEach(function(file){
+                var filename = (new Date).valueOf()+"-"+file.originalname;
+                fs.rename(file.path, 'public/uploads/'+filename,(err)=>{
+                    if(err)throw err;
+                    let newProduct = new Product({
+                        name : req.body.name,
+                        categoryId: req.body.categoryId,
+                        mrp: req.body.mrp,
+                        stockStatus: req.body.stockStatus,
+                        description: req.body.description,
+                        image: filename,
+                        tagId: req.body.tagId
+                    });
+                
+                    Product.addProduct(newProduct, (err, product) => {
+                        if(err)
+                            res.json({success: false, msg: 'Failed to add product.', err: err});
+                        else{
                             return new Promise((resolve,reject)=>{
-                                req.session.categorydata.forEach((categorydata)=>{
-                                    if(product.categoryId == categorydata._id){
-                                        product["category"] = categorydata.category;
-                                        return;
-                                    }
-                                });
-                                req.session.tagdata.forEach((tagdata)=>{
-                                    if(product.tagId == tagdata._id){
-                                        product["tag"] = tagdata.Tag;
-                                        return;
-                                    }
-                                }); 
                                 if(product)
                                     return resolve(product);
                                 else    
                                     return reject();
-                            });
-                        }, function(err) {
-                            console.log(err);
-                        })
-                        .then((product) => {
-                            req.session.data.push(product);
-                            res.json({success: true, msg: 'Product Added.', product: req.session.data})
-                        }, function(err) {
-                            console.log(err);
-                        })
-                        
-                    }
-                });
+                            }, function(err) {
+                                console.log(err);
+                            })
+                            .then((product) => {
+                                product = product.toJSON();
+                                return new Promise((resolve,reject)=>{
+                                    req.session.categorydata.forEach((categorydata)=>{
+                                        if(product.categoryId == categorydata._id){
+                                            product["category"] = categorydata.category;
+                                            return;
+                                        }
+                                    });
+                                    req.session.tagdata.forEach((tagdata)=>{
+                                        if(product.tagId == tagdata._id){
+                                            product["tag"] = tagdata.Tag;
+                                            return;
+                                        }
+                                    }); 
+                                    if(product)
+                                        return resolve(product);
+                                    else    
+                                        return reject();
+                                });
+                            }, function(err) {
+                                console.log(err);
+                            })
+                            .then((product) => {
+                                req.session.data.push(product);
+                                res.json({success: true, msg: 'Product Added.', product: req.session.data})
+                            }, function(err) {
+                                console.log(err);
+                            })
+                            
+                        }
+                    });
+                })
             })
-        })
+        }
+    }else{
+        res.json({success: false, msg: 'Please fill all the mandatory fields'})
     }
 });
 
 router.post('/uploadcsv', upload.any(), (req, res, next) => {
     if (!req.session.data) req.session.data = [];
-    if(req.files){
+    if(req.files != ''){
         let products = [];
         req.files.forEach(function(file){
             let filename = (new Date).valueOf()+"-"+file.originalname;

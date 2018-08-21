@@ -10,59 +10,70 @@
         <div ng-app = "App" ng-controller="AppController">
             <h3>New Product</h3>
             <form ng-submit="submit()">
+                <span style="color:red">ALL Fields are Mandatory</span>
                 <table>           
                     <tr>
-                        <td>Name</td>
+                        <td>Name <span style="color:red">*</span></td>
                         <td><input type="text" ng-model="product.name"></td>
                     </tr>
 
                     <tr>
-                        <td>Category Id</td>
+                        <td>Category Id <span style="color:red">*</span></td>
                         <td><select ng-model="product.categoryId"><option ng-repeat="x in category" value="{{x._id}}">{{x.category}}</option></select></td>
                     </tr>
 
                     <tr>
-                        <td>MRP</td>
-                        <td><input type="text" ng-model="product.mrp"></td>
+                        <td>MRP <span style="color:red">*</span></td>
+                        <td><input type="number" ng-model="product.mrp"></td>
                     </tr>
 
                     <tr>
-                        <td>Stock Status</td>
-                        <td><input type="text" ng-model="product.stockStatus"></td>
+                        <td>Stock Status <span style="color:red">*</span></td>
+                        <td><input type="number" ng-model="product.stockStatus"></td>
                     </tr>
 
                     <tr>
-                        <td>Description</td>
+                        <td>Description <span style="color:red">*</span></td>
                         <td><textarea type="text" ng-model="product.description" cols="30" rows="5"></textarea></td>
                     </tr>
 
                     <tr>
-                        <td>Image</td>
+                        <td>Image <span style="color:red">*</span></td>
                         <td><input type="file" demo-file-model="myFile" id="file"></td>
                     </tr>
 
                     <tr>
-                        <td>Tag Id</td>
+                        <td>Tag Id <span style="color:red">*</span></td>
                         <td><select ng-model="product.tagId"><option ng-repeat="x in tag" value="{{x._id}}">{{x.Tag}}</option></select></td>
                     </tr>
                 </table>
 
-                <button>Create Product</button>
+                <button ng-disabled="!product.name || !product.categoryId || !product.mrp || !product.stockStatus || !product.description || !product.tagId">Create Product</button>
+                <br/>
+                <span ng-if = "failed" style="color:red">{{failed}}</span>
+                <span ng-if = "success" style="color:green">{{success}}</span>
+    
             </form>
             <h3>OR</h3>
             <form ng-submit="uploadcsv()">
                 <h3>Upload CSV</h3>
                 <br/>
+                <span ng-if = "failedcsv" style="color:red">{{failedcsv}}</span>
+                <span ng-if = "successcsv" style="color:green">{{successcsv}}</span>
+                <br/>
                 <input type="file" demo-file-model="myFile" id="file"/>
                 <br/>
                 <br/>
-                <button>Upload</button>
+                <button ng-disabled="!myFile">Upload</button>
             </form>
 
             <br/>
             <h3>Your Products</h3>
             <span> Search:</span><input type="text" ng-model="search" placeholder="Product name or category">
             <br/><br/>
+
+            <span ng-if = "successdelete" style="color:green">{{successdelete}}</span>
+
             <table ng-if = "productlist.length > 0" border="1" cellspacing = "0">
                 <tr>
                     <td>Name</td>
@@ -83,7 +94,6 @@
                     <td><img ng-src="/uploads/{{ x.image }}" width="100px"> </td>
                     <td>{{ x.tag }}</td>
                     <td><button ng-click = "delete(x._id)">&times;</button></td>
-                    <!-- <td>{{ x['categoryId'] }}</td> -->
                 </tr>
             </table>
         </div>

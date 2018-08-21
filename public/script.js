@@ -51,16 +51,21 @@ angular.module('App', [])
                 'Content-Type': undefined
             }
         }).then((res)=>{
-            $scope.productlist = res.data.product;
-            console.log('productlist',$scope.productlist);
-            $scope.product = {
-                name : "",
-                categoryId: "",
-                mrp: "",
-                stockStatus: "",
-                description: "",
-                tagId: ""
-            };
+            if(res.data.success === true){
+                $scope.productlist = res.data.product;
+                $scope.myFile = "";
+                $scope.product = {
+                    name : "",
+                    categoryId: "",
+                    mrp: "",
+                    stockStatus: "",
+                    description: "",
+                    tagId: ""
+                };
+                $scope.success = res.data.msg;
+            }else{
+                $scope.failed = res.data.msg;
+            }
             // $scope.productlist.length = 0;
             // for(key in res.data.product)
             //     $scope.productlist.push(res.data.product[key]);
@@ -81,14 +86,23 @@ angular.module('App', [])
             headers: {
                 'Content-Type': undefined
             }
-        }).then((res)=>{
-            $scope.productlist = res.data.product;
+        }).then((res)=>{console.log('ress',res);
+            if(res.data.success === true){
+                $scope.myFile = "";
+                $scope.productlist = res.data.product;
+                $scope.successcsv = res.data.msg;
+            }else{
+                $scope.failedcsv = res.data.msg;
+            }
         })
     }
 
     $scope.delete = function(id){
         $http.delete('/product/deleteproduct/'+id).then((res)=>{
-            $scope.productlist = res.data.product;
+            if(res.data.success === true){
+                $scope.successdelete = res.data.msg;
+                $scope.productlist = res.data.product;
+            }
         })
     }
 })
